@@ -2,7 +2,7 @@ Sample Spring Java App (employees-spring-mvc)
 ======================
 Provides RESTful services using Spring MVC and JdbcTemplate
 
-Prior to deploying application
+Prior to deploying application1
 
 Configuring New Relic
 * Edit newrelic.yml in src/main/resources/newrelic_agent.zip
