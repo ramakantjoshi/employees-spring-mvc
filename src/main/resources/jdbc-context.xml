@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:jdbc.properties" system-properties-mode="ENVIRONMENT" />
+
+	
+	<context:annotation-config />
+
+    <bean name="parsedUri" class="com.qualcomm.ea.ssat.employees.spring.mvc.util.ServiceUri">
+        <constructor-arg type="java.lang.String" value="${MYSQLDB_EMPLOYEES_URI}" />
+    </bean>
+
+    <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg><ref bean="dataSource" /></constructor-arg>
+    </bean>
+
+	<!-- the DataSource (parameterized for configuration via a PropertyPlaceHolderConfigurer) -->
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="jdbc:mysql://#{parsedUri.hostname}:#{parsedUri.port}#{parsedUri.path}" />
+		<property name="username" value="#{parsedUri.username}" />
+		<property name="password" value="#{parsedUri.password}" />
+		<property name="initialSize" value="0" />
+		<property name="maxActive" value="20" />
+		<property name="minIdle" value="0" />
+		<property name="poolPreparedStatements" value="false" />
+		<property name="defaultAutoCommit" value="false" />
+		<property name="defaultTransactionIsolation" value="1" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="10000" />
+		<property name="validationQuery" value="select 1" />
+	</bean>
+
+
+
+
+</beans>
